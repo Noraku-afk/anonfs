@@ -1,0 +1,30 @@
+PROJECT OVERVIEW: CONFIDENTIAL FILE SHARING SYSTEM
+
+This project is a Secure Confidential File Sharing System designed to protect sensitive data from unauthorized access, even if the server itself is compromised.
+
+=========================================
+1. HOW IT WORKS (THE CORE LOGIC)
+=========================================
+- Upload: When you upload a file, the system doesn't just save it. It immediately scrambles the file using AES-256 Encryption (military-grade encryption) using a secret key stored only on the server.
+- Storage: The file sitting on the hard drive (or cloud storage) is completely unreadable. If a hacker broke into your server and copied all the files, they would essentially steal "garbage" data that they cannot open.
+- Download: When a user clicks download, the system first checks if they have permission. If yes, it fetches the encrypted file, unlocks (decrypts) it *in memory* for that split second, and sends the readable file to the user.
+
+=========================================
+2. HOW IT DIFFERS FROM "NORMAL" FILE SHARING
+=========================================
+
+[STORAGE]
+- Normal System: Files are often stored as plain text (e.g., "report.pdf" is saved as "report.pdf").
+- Confidential System (Yours): Files are stored as encrypted blobs (e.g., "uuid.enc"). No one (not even the admin) can read them directly from the disk.
+
+[SECURITY FOCUS]
+- Normal System: Focuses on sharing links and ease of access. Often uses public links.
+- Confidential System (Yours): Focuses on Confidentiality. There are no public links. You must be logged in and explicitly authorized to access a file.
+
+[SERVER BREACH SCENARIO]
+- Normal System: If the server is hacked, all user files are exposed.
+- Confidential System (Yours): If the server is hacked, the files remain encrypted and secure (assuming the hacker doesn't also get your encryption keys).
+
+[USE CASE]
+- Normal System: Sharing holiday photos, public documents.
+- Confidential System (Yours): Sharing trade secrets, medical records, or sensitive legal documents.
