@@ -14,7 +14,18 @@ const Login = () => {
             await login(formData.username, formData.password);
             navigate('/dashboard');
         } catch (err) {
-            setError('Invalid credentials');
+            console.error(err);
+            if (err.response) {
+                if (err.response.status === 404) {
+                    setError('Server Endpoint Not Found (Check API URL)');
+                } else if (err.response.status === 401) {
+                    setError('Invalid Username or Password');
+                } else {
+                    setError(`Login failed: ${err.response.statusText}`);
+                }
+            } else {
+                setError('Network Error: Could not reach backend');
+            }
         }
     };
 
