@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
+import { Shield, User, Mail, Key, Lock, Eye, EyeOff, Loader2, ArrowRight, Info } from 'lucide-react';
+import { Button, Input, Card } from '../components/ui-components';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -33,7 +35,6 @@ const Register = () => {
         } catch (err) {
             console.error(err);
             if (err.response && err.response.data) {
-                // Handle backend validation errors (e.g., username taken)
                 const msg = Object.values(err.response.data).flat().join(' ');
                 setError(msg || "Registration failed.");
             } else {
@@ -45,96 +46,74 @@ const Register = () => {
     };
 
     return (
-        <div className="font-display bg-[#f6f6f8] dark:bg-[#05080F] text-slate-900 dark:text-white min-h-screen flex flex-col relative overflow-x-hidden selection:bg-[#1f68ef] selection:text-white">
-            {/* Ambient Background Blobs */}
-            <div className="fixed top-0 left-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] -translate-x-1/3 -translate-y-1/3 pointer-events-none z-0"></div>
-            <div className="fixed bottom-0 right-0 w-[600px] h-[600px] bg-cyan-600/5 rounded-full blur-[100px] translate-x-1/3 translate-y-1/3 pointer-events-none z-0"></div>
+        <div className="min-h-screen w-full bg-[#05080F] flex items-center justify-center p-4 relative overflow-hidden text-gray-300 font-sans selection:bg-blue-500/30">
+            {/* Background Effects */}
+            <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-blue-600/10 rounded-full blur-[150px]" />
+            <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-cyan-600/5 rounded-full blur-[150px]" />
 
-            <main className="flex-grow flex items-center justify-center p-4 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="w-full max-w-[520px] rounded-xl p-8 md:p-10 flex flex-col gap-8 backdrop-blur-xl bg-[#0a0f1c]/70 border border-[#1f68ef]/20 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]"
-                >
-                    {/* Header */}
-                    <div className="text-center space-y-4">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#1f68ef]/10 text-[#1f68ef] border border-[#1f68ef]/20 shadow-[0_0_30px_rgba(31,104,239,0.15)] mb-2">
-                            <span className="material-symbols-outlined text-4xl drop-shadow-[0_0_20px_rgba(31,104,239,0.5)]">shield_lock</span>
+            {/* Header */}
+            <div className="absolute top-6 left-6 flex items-center gap-2">
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(37,99,235,0.5)]">
+                    <Shield className="w-5 h-5 text-white" />
+                </div>
+                <span className="text-white font-bold text-lg tracking-wide">AnonFS</span>
+            </div>
+
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="w-full max-w-md"
+            >
+                <Card className="p-8 md:p-10">
+                    <div className="text-center mb-8">
+                        <div className="mx-auto w-16 h-16 bg-gradient-to-b from-blue-500/20 to-transparent rounded-2xl flex items-center justify-center mb-4 border border-blue-500/20 shadow-[0_0_30px_rgba(37,99,235,0.1)]">
+                            <Shield className="w-8 h-8 text-blue-500" />
                         </div>
-                        <div className="space-y-1">
-                            <h1 className="text-3xl font-bold tracking-tight text-white drop-shadow-[0_0_20px_rgba(31,104,239,0.5)]">AnonFS Vault</h1>
-                            <p className="text-slate-400 text-sm tracking-wide uppercase font-mono">Create Secure Account</p>
-                        </div>
+                        <h1 className="text-2xl font-bold text-white mb-2">Create Secure Account</h1>
+                        <p className="text-gray-500 text-sm">Join the encrypted vault network</p>
                     </div>
 
-                    {/* Error Message */}
                     {error && (
-                        <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-lg text-center">
-                            {error}
+                        <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-start gap-3 text-red-400 text-sm">
+                            <Info className="w-5 h-5 shrink-0 mt-0.5" />
+                            <span>{error}</span>
                         </div>
                     )}
 
-                    {/* Form */}
-                    <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-                        {/* Username */}
-                        <div className="space-y-2 group">
-                            <label className="block text-xs font-mono font-medium text-slate-400 tracking-wider uppercase">
-                                Username_ID
-                            </label>
-                            <div className="flex items-center w-full bg-[#0A0F1C] border border-slate-800 rounded-lg transition-all duration-300 focus-within:border-[#1f68ef] focus-within:shadow-[0_0_15px_rgba(31,104,239,0.2)]">
-                                <div className="pl-4 pr-3 text-slate-500 flex items-center justify-center">
-                                    <span className="material-symbols-outlined text-[20px]">person</span>
-                                </div>
-                                <input
-                                    className="w-full bg-transparent border-none focus:ring-0 text-white placeholder-slate-600 text-sm py-3.5 pl-0"
-                                    placeholder="ENTER SECURE ALIAS"
-                                    type="text"
-                                    value={formData.username}
-                                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                                    required
-                                />
-                                <div className="pr-4 opacity-0 group-focus-within:opacity-100 transition-opacity text-[#1f68ef]">
-                                    <span className="material-symbols-outlined text-[18px]">check_circle</span>
-                                </div>
-                            </div>
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        <div className="space-y-2">
+                            <label className="text-xs font-semibold text-gray-500 tracking-wider uppercase ml-1">Username_ID</label>
+                            <Input
+                                icon={User}
+                                type="text"
+                                placeholder="ENTER SECURE ALIAS"
+                                value={formData.username}
+                                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                                required
+                            />
                         </div>
 
-                        {/* Email */}
-                        <div className="space-y-2 group">
-                            <label className="block text-xs font-mono font-medium text-slate-400 tracking-wider uppercase">
-                                Secure Email
-                            </label>
-                            <div className="flex items-center w-full bg-[#0A0F1C] border border-slate-800 rounded-lg transition-all duration-300 focus-within:border-[#1f68ef] focus-within:shadow-[0_0_15px_rgba(31,104,239,0.2)]">
-                                <div className="pl-4 pr-3 text-slate-500 flex items-center justify-center">
-                                    <span className="material-symbols-outlined text-[20px]">mail</span>
-                                </div>
-                                <input
-                                    className="w-full bg-transparent border-none focus:ring-0 text-white placeholder-slate-600 text-sm py-3.5 pl-0"
-                                    placeholder="NAME@PROVIDER.COM"
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    required
-                                />
-                            </div>
+                        <div className="space-y-2">
+                            <label className="text-xs font-semibold text-gray-500 tracking-wider uppercase ml-1">Secure Email</label>
+                            <Input
+                                icon={Mail}
+                                type="email"
+                                placeholder="NAME@PROVIDER.COM"
+                                value={formData.email}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                required
+                            />
                         </div>
 
-                        {/* Password Row */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            {/* Password */}
-                            <div className="space-y-2 group">
-                                <label className="block text-xs font-mono font-medium text-slate-400 tracking-wider uppercase">
-                                    Passphrase
-                                </label>
-                                <div className="flex items-center w-full bg-[#0A0F1C] border border-slate-800 rounded-lg transition-all duration-300 focus-within:border-[#1f68ef] focus-within:shadow-[0_0_15px_rgba(31,104,239,0.2)]">
-                                    <div className="pl-4 pr-3 text-slate-500 flex items-center justify-center">
-                                        <span className="material-symbols-outlined text-[20px]">lock</span>
-                                    </div>
-                                    <input
-                                        className="w-full bg-transparent border-none focus:ring-0 text-white placeholder-slate-600 text-sm py-3.5 pl-0"
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <label className="text-xs font-semibold text-gray-500 tracking-wider uppercase ml-1">Passphrase</label>
+                                <div className="relative">
+                                    <Input
+                                        icon={Key}
+                                        type={showPassword ? 'text' : 'password'}
                                         placeholder="••••••••"
-                                        type={showPassword ? "text" : "password"}
                                         value={formData.password}
                                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                         required
@@ -142,72 +121,57 @@ const Register = () => {
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="pr-4 text-slate-500 hover:text-white transition-colors flex items-center outline-none"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
                                     >
-                                        <span className="material-symbols-outlined text-[20px]">{showPassword ? 'visibility_off' : 'visibility'}</span>
+                                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                     </button>
                                 </div>
                             </div>
 
-                            {/* Confirm Password */}
-                            <div className="space-y-2 group">
-                                <label className="block text-xs font-mono font-medium text-slate-400 tracking-wider uppercase">
-                                    Confirm
-                                </label>
-                                <div className="flex items-center w-full bg-[#0A0F1C] border border-slate-800 rounded-lg transition-all duration-300 focus-within:border-[#1f68ef] focus-within:shadow-[0_0_15px_rgba(31,104,239,0.2)]">
-                                    <div className="pl-4 pr-3 text-slate-500 flex items-center justify-center">
-                                        <span className="material-symbols-outlined text-[20px]">lock_reset</span>
-                                    </div>
-                                    <input
-                                        className="w-full bg-transparent border-none focus:ring-0 text-white placeholder-slate-600 text-sm py-3.5 pl-0"
-                                        placeholder="••••••••"
-                                        type="password"
-                                        value={formData.confirmPassword}
-                                        onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                                        required
-                                    />
-                                </div>
+                            <div className="space-y-2">
+                                <label className="text-xs font-semibold text-gray-500 tracking-wider uppercase ml-1">Confirm</label>
+                                <Input
+                                    icon={Lock}
+                                    type="password"
+                                    placeholder="••••••••"
+                                    value={formData.confirmPassword}
+                                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                                    required
+                                />
                             </div>
                         </div>
 
-                        {/* Submit Button */}
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="mt-4 w-full bg-[#1f68ef] hover:bg-blue-600 active:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg uppercase tracking-widest text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(31,104,239,0.4)] transform hover:-translate-y-0.5 border border-white/10 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-wait"
-                        >
-                            <span>{loading ? 'Processing...' : 'Initiate Registration'}</span>
-                            {!loading && <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform text-lg">arrow_forward</span>}
-                        </button>
+                        <Button type="submit" className="w-full gap-2 font-semibold tracking-wide mt-2" disabled={loading}>
+                            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <span className="flex items-center gap-2">INITIATE REGISTRATION <ArrowRight className="w-4 h-4" /></span>}
+                        </Button>
                     </form>
 
-                    {/* Footer Section */}
-                    <div className="flex flex-col items-center gap-6 pt-2 border-t border-white/5">
-                        <p className="text-slate-400 text-sm">
-                            Already have an ID?
-                            <Link to="/login" className="text-[#1f68ef] hover:text-blue-400 font-medium ml-1 transition-colors hover:underline decoration-blue-500/50 underline-offset-4">
+                    <div className="mt-8 text-center space-y-6">
+                        <p className="text-sm text-gray-400">
+                            Already have an ID?{' '}
+                            <Link to="/login" className="text-blue-500 hover:text-blue-400 font-semibold transition-colors">
                                 Access Vault
                             </Link>
                         </p>
-                        <div className="flex flex-col items-center gap-3">
-                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1f68ef]/10 border border-[#1f68ef]/20 text-[10px] font-mono font-bold text-[#1f68ef] uppercase tracking-wider shadow-[0_0_10px_rgba(31,104,239,0.1)]">
-                                <span className="material-symbols-outlined text-[14px]">encrypted</span>
-                                End-to-End Encrypted
-                            </div>
-                            <p className="text-[10px] text-slate-600 font-mono tracking-widest uppercase">Encryption Protocol v2.0</p>
+
+                        <div className="relative flex items-center justify-center">
+                            <div className="absolute inset-x-0 h-px bg-gray-800"></div>
+                            <span className="relative bg-[#0A0F1C] px-4 text-[10px] text-gray-600 tracking-widest uppercase">Encryption V2.0</span>
                         </div>
                     </div>
-                </motion.div>
-            </main>
+                </Card>
 
-            {/* Footer Decorative Elements */}
-            <footer className="fixed bottom-4 w-full text-center pointer-events-none z-20 hidden md:block">
-                <div className="flex justify-between px-8 text-[10px] text-slate-700 font-mono">
-                    <span>SYS.STATUS: ONLINE</span>
-                    <span>LATENCY: 12ms</span>
-                    <span>SERVER: VAULT-01</span>
+                <div className="mt-8 flex justify-center">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/5 border border-green-500/10 text-[10px] text-green-500 font-mono tracking-wider">
+                        <Shield className="w-3 h-3" />
+                        End-to-End Encrypted
+                    </div>
                 </div>
-            </footer>
+
+                <div className="mt-4 text-center">
+                    <span className="text-[10px] text-gray-700 font-mono">SYS.STATUS: ONLINE • LATENCY: 12ms</span>
+                </div>
+            </motion.div>
         </div>
     );
 };
