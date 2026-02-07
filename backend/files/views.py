@@ -58,6 +58,16 @@ class FileListView(generics.ListAPIView):
     def get_queryset(self):
         return File.objects.filter(uploaded_by=self.request.user).order_by('-created_at')
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        # Filter out files that don't exist on disk
+        valid_files = [
+            f for f in queryset 
+            if os.path.exists(os.path.join(ENCRYPTED_FILES_DIR, f.encrypted_name))
+        ]
+        serializer = self.get_serializer(valid_files, many=True)
+        return Response(serializer.data)
+
 class SharedFileListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = FileSerializer
@@ -65,6 +75,16 @@ class SharedFileListView(generics.ListAPIView):
     def get_queryset(self):
         # Return files where permission exists for this user
         return File.objects.filter(permissions__user=self.request.user).order_by('-created_at')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        # Filter out files that don't exist on disk
+        valid_files = [
+            f for f in queryset 
+            if os.path.exists(os.path.join(ENCRYPTED_FILES_DIR, f.encrypted_name))
+        ]
+        serializer = self.get_serializer(valid_files, many=True)
+        return Response(serializer.data)
 
 class FileShareView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
