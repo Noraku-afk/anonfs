@@ -50,3 +50,7 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+export const useAuth = () => {
+    return React.useContext(AuthContext);
+};
