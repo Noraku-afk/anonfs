@@ -355,7 +355,7 @@ const Dashboard = () => {
                                                                 className="p-2 rounded-lg hover:bg-accent/20 hover:text-accent text-slate-400 transition-all cursor-pointer"
                                                                 title="Decrypt & Download"
                                                             >
-                                                                <span className="material-symbols-outlined text-[20px]">lock_open</span>
+                                                                <span className="material-symbols-outlined text-[20px]">download</span>
                                                             </button>
                                                         </div>
                                                     </td>
