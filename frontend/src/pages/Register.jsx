@@ -87,7 +87,7 @@ const Register = () => {
                             <Input
                                 icon={User}
                                 type="text"
-                                placeholder="ENTER SECURE ALIAS"
+                                placeholder="Enter Username"
                                 value={formData.username}
                                 onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                                 required
@@ -99,7 +99,7 @@ const Register = () => {
                             <Input
                                 icon={Mail}
                                 type="email"
-                                placeholder="NAME@PROVIDER.COM"
+                                placeholder="[Email Address]"
                                 value={formData.email}
                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                 required
@@ -148,7 +148,7 @@ const Register = () => {
 
                     <div className="mt-8 text-center space-y-6">
                         <p className="text-sm text-gray-400">
-                            Already have an ID?{' '}
+                            Already have an account?{' '}
                             <Link to="/login" className="text-blue-500 hover:text-blue-400 font-semibold transition-colors">
                                 Access Vault
                             </Link>
