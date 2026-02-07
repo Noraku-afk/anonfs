@@ -38,7 +38,7 @@ const Dashboard = () => {
 
             // Calculate stats if on My Files tab
             if (activeTab === 'my-files') {
-                const totalSize = response.data.reduce((acc, file) => acc + (file.size || 0), 0);
+                const totalSize = response.data.reduce((acc, file) => acc + (file.file_size || 0), 0);
                 setStats({ totalSize, count: response.data.length });
             }
         } catch (error) {
@@ -316,12 +316,12 @@ const Dashboard = () => {
                                                                 <span className="material-symbols-outlined">description</span>
                                                             </div>
                                                             <div>
-                                                                <p className="font-medium text-slate-200 group-hover:text-white transition-colors">{file.file_name || file.file.split('/').pop()}</p>
+                                                                <p className="font-medium text-slate-200 group-hover:text-white transition-colors">{file.original_name}</p>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td className="p-5 text-slate-400 hidden sm:table-cell">{new Date(file.uploaded_at).toLocaleDateString()}</td>
-                                                    <td className="p-5 text-slate-400 hidden md:table-cell">{formatBytes(file.size || 0)}</td>
+                                                    <td className="p-5 text-slate-400 hidden sm:table-cell">{new Date(file.created_at).toLocaleDateString()}</td>
+                                                    <td className="p-5 text-slate-400 hidden md:table-cell">{formatBytes(file.file_size || 0)}</td>
                                                     <td className="p-5">
                                                         <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent border border-accent/20 drop-shadow-[0_0_5px_rgba(0,255,157,0.4)]">
                                                             <span className="w-1.5 h-1.5 rounded-full bg-accent mr-1.5 animate-pulse"></span>
@@ -340,7 +340,7 @@ const Dashboard = () => {
                                                                 </button>
                                                             )}
                                                             <button
-                                                                onClick={() => handleDownload(file.id, file.file_name)}
+                                                                onClick={() => handleDownload(file.id, file.original_name)}
                                                                 className="p-2 rounded-lg hover:bg-accent/20 hover:text-accent text-slate-400 transition-all cursor-pointer"
                                                                 title="Decrypt & Download"
                                                             >
