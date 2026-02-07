@@ -13,6 +13,8 @@ const formatBytes = (bytes, decimals = 2) => {
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 };
 
+import ShareModal from '../components/ShareModal';
+
 const Dashboard = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
@@ -22,6 +24,10 @@ const Dashboard = () => {
     const [stats, setStats] = useState({ totalSize: 0, count: 0 });
     const fileInputRef = useRef(null);
     const [uploading, setUploading] = useState(false);
+
+    // Share Modal State
+    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+    const [fileToShare, setFileToShare] = useState(null);
 
     // Fetch files based on active tab
     useEffect(() => {
@@ -98,17 +104,9 @@ const Dashboard = () => {
         }
     };
 
-    const handleShare = async (fileId) => {
-        const email = prompt("Enter email of user to share with:");
-        if (!email) return;
-
-        try {
-            await api.post('share-file/', { file_id: fileId, user_email: email });
-            alert("File shared successfully!");
-        } catch (error) {
-            console.error("Share failed:", error);
-            alert("Share failed! Check if user exists.");
-        }
+    const handleShareClick = (file) => {
+        setFileToShare(file);
+        setIsShareModalOpen(true);
     };
 
     const handleLogout = () => {
@@ -345,7 +343,7 @@ const Dashboard = () => {
                                                         <div className="flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
                                                             {activeTab === 'my-files' && (
                                                                 <button
-                                                                    onClick={() => handleShare(file.id)}
+                                                                    onClick={() => handleShareClick(file)}
                                                                     className="p-2 rounded-lg hover:bg-primary/20 hover:text-primary text-slate-400 transition-all cursor-pointer"
                                                                     title="Share"
                                                                 >
@@ -371,6 +369,16 @@ const Dashboard = () => {
                     </div>
                 </main>
             </div>
+
+            {/* Share Modal */}
+            <ShareModal
+                isOpen={isShareModalOpen}
+                onClose={() => setIsShareModalOpen(false)}
+                file={fileToShare}
+                onShareSuccess={() => {
+                    // Optional: refresh logic if needed
+                }}
+            />
         </div>
     );
 };
