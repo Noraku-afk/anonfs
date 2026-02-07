@@ -81,7 +81,20 @@ const Dashboard = () => {
             link.parentNode.removeChild(link);
         } catch (error) {
             console.error("Download failed:", error);
-            alert("Download failed!");
+            if (error.response && error.response.data instanceof Blob) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    try {
+                        const errorObj = JSON.parse(reader.result);
+                        alert(`Download failed: ${errorObj.error || 'Unknown error'}`);
+                    } catch (e) {
+                        alert("Download failed: Server returned an error.");
+                    }
+                };
+                reader.readAsText(error.response.data);
+            } else {
+                alert("Download failed! Please try again.");
+            }
         }
     };
 
