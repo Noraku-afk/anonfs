@@ -1,0 +1,69 @@
+# PROMPT FOR AI FRONTEND BUILDER (e.g., v0.dev, Stitch, Bolt)
+
+I want to build a Modern, High-Security UI for my "Confidential File Sharing System".
+The backend is already built (Django REST Framework). I need a complete React Frontend that connects to it.
+
+## 1. DESIGN AESTHETIC
+- **Theme:** Privacy-first, Cyber-security, Dark Mode.
+- **Colors:** Deep Charcoal (#121212), Neon Green/Cyber Blue accents for actions.
+- **Font:** Inter or Roboto Mono (tech feel).
+- **Vibe:** Clean, minimalist, trustworthy. No clutter. Glassmorphism effects on cards.
+
+## 2. CORE FEATURES & PAGES
+
+### A. Authentication (JWT Based)
+1.  **Login Page:**
+    - Fields: Username, Password.
+    - Action: POST `/api/login/` -> Returns `{access, refresh}`.
+    - Store token in localStorage.
+2.  **Register Page:**
+    - Fields: Username, Email, Password.
+    - Action: POST `/api/register/`.
+
+### B. Dashboard (Protected Route)
+- **Header:** Logo "AnonFS", User Profile, Logout Button.
+- **Main Layout:** Two columns or Tabs.
+
+#### Tab 1: My Files
+- **Action:** GET `/api/my-files/`
+- **Display:** Grid or List of files.
+- **Columns:** Original Name, Upload Date, "Encrypted" Badge.
+- **Actions per file:**
+    - **Download:** GET `/api/download/<id>/` (Button icon: Lock unlocking).
+    - **Share:** Opens a modal.
+
+#### Tab 2: Shared with Me
+- **Action:** GET `/api/shared-files/`
+- **Display:** List of files shared by other users.
+- **Columns:** File Name, Shared By (User), Date.
+- **Actions:** Download button.
+
+### C. File Upload (Floating Action Button or Drag & Drop Area)
+- **UI:** A modern drag-and-drop zone.
+- **Action:** POST `/api/upload/` (Multipart form-data: `file`).
+- **Feedback:** Progress bar, Success toast, "Encrypting..." animation.
+
+### D. Share Modal
+- **Trigger:** Click "Share" on a file.
+- **UI:** Input field for "User Email" or Dropdown of users.
+- **Action:** POST `/api/share-file/` (Body: `{file_id, user_email}`).
+
+## 3. TECHNICAL CONSTRAINTS
+- **Framework:** React + Vite + Tailwind CSS.
+- **HTTP Client:** Axios Interceptor (Auto-attach `Authorization: Bearer <token>`).
+- **Error Handling:** Show toasts for 403 (Unauthorized) or 404 (Not Found).
+- **Responsive:** Must work on Mobile and Desktop.
+
+## 4. API CONSTANTS
+Assume the backend is at `import.meta.env.VITE_API_URL`.
+Endpoints:
+- `/api/register/`
+- `/api/login/`
+- `/api/token/refresh/`
+- `/api/upload/`
+- `/api/my-files/`
+- `/api/shared-files/`
+- `/api/share-file/`
+- `/api/download/<id>/`
+
+Please generate the complete React Codebase with these exact specifications.
